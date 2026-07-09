@@ -1,0 +1,38 @@
+# Ambientes virtuais / dependências
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Variáveis de ambiente (segredos/configuração local)
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Streamlit (config/segredos locais, não os do repositório)
+.streamlit/secrets.toml
+
+# Cache de ferramentas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Logs
+*.log
+
+# Docker (builds locais, não versionar volumes/dados)
+infra/grafana-data/
+infra/prometheus-data/
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

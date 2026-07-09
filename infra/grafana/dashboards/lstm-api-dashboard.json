@@ -1,0 +1,74 @@
+{
+  "title": "LSTM Stock API - Monitoramento",
+  "uid": "lstm-stock-api",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Disponibilidade da API (up)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "up{job=\"lstm-stock-api\"}",
+          "legendFormat": "up"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Requisições por segundo (por endpoint)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{job=\"lstm-stock-api\"}[1m])) by (handler)",
+          "legendFormat": "{{handler}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Taxa de erros (4xx e 5xx)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{job=\"lstm-stock-api\", status=~\"4..|5..\"}[1m])) by (status)",
+          "legendFormat": "{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Latência média de resposta (p95)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"lstm-stock-api\"}[5m])) by (le, handler))",
+          "legendFormat": "{{handler}} p95"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Total de requisições por status",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{job=\"lstm-stock-api\"}[1m])) by (status)",
+          "legendFormat": "{{status}}"
+        }
+      ]
+    }
+  ]
+}
